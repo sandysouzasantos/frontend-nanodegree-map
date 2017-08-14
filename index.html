@@ -6,11 +6,8 @@
     <title>Title</title>
     <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-
-
 </head>
 <body>
-
 
 <div id="map" data-bind="initMap"></div>
 
@@ -51,13 +48,23 @@
         var placeLoc = place.geometry.location;
         var marker = new google.maps.Marker({
             map: map,
+            animation: google.maps.Animation.DROP,
             position: placeLoc
         });
 
-        google.maps.event.addListener(marker, 'mouseover', function() {
+        google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(place.name);
             infowindow.open(map, this);
+            toggleBounce()
         });
+
+        function toggleBounce() {
+            if (marker.getAnimation() !== null) {
+                marker.setAnimation(null);
+            } else {
+                marker.setAnimation(google.maps.Animation.BOUNCE);
+            }
+        }
     }
 </script>
 
@@ -65,7 +72,8 @@
 <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
 <script src="js/knockout-3.4.2.js"></script>
 <script src="js/script.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdsGVUv3tAj7zQAr6hIEobRxW-U-OtDKk&libraries=places&callback=initMap" async defer></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdsGVUv3tAj7zQAr6hIEobRxW-U-OtDKk&libraries=places&callback=initMap"
+        async defer></script>
 
 </body>
 </html>
