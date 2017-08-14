@@ -4,7 +4,28 @@ html, body {
     padding: 0;
 }
 
-#map {
+#map, .col-md-9, .height {
     height: 100%;
 }
 
+.navbar {
+    margin-bottom: 0;
+    border-radius: 0;
+}
+
+.navbar-toggle {
+    float: left;
+}
+
+h4 {
+    color: #ffffff;
+    margin-top: 17px;
+}
+
+.inverse {
+    background-color: #222;
+}
+
+.margin-top {
+    margin-top: 15px;
+}
