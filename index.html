@@ -13,27 +13,35 @@
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header">
-                <button data-bind="click: move" class="btn-menu"><span id="main_icon" class="glyphicon glyphicon-align-justify"></span></button>
+                <button data-bind="click: move" class="btn-menu"><span id="main_icon"
+                                                                       class="glyphicon glyphicon-align-justify"></span>
+                </button>
 
                 <h3 class="navbar-text">Restaurantes em Porto de galinhas</h3>
             </div>
         </div>
     </nav>
 </header>
+
 <div class="main-wrap">
 
-    <div class="sidebar"><h1>Settings</h1></div>
+    <div class="sidebar">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="Encontre seu restaurante">
+            <ul>
+                <li data-bind="foreach: markers"></li>
+            </ul>
+        </div>
+    </div>
+
     <div class="portfolio" id="map" data-bind="initMap"></div>
+
 </div>
-
-<div></div>
-
 
 <script>
     var map;
     var infowindow;
 
-    var markers = [];
 
     function initMap() {
         var centerPortoGalinhas = {lat: -8.5056828, lng: -35.0024702};
@@ -58,7 +66,9 @@
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
                 createMarker(results[i]);
+                markers.push(results[i].name);
             }
+
         }
     }
 

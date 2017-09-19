@@ -24,31 +24,22 @@ button:focus{
 .sidebar {
     background-color: #222;
     color: #9d9d9d;
-    width: 150px;
+    width: 200px;
     position: absolute;
     top: 50px;
     left: 0;
     bottom: 0;
 }
 
-.sidebar h1 {
-    color: white;
-}
-
 .portfolio {
     position: absolute;
     top: 50px;
-    left: 150px;
+    left: 200px;
     right: 0;
     bottom: 0;
     height: 100%;
     -moz-transition: right 0.5s ease;
     transition: right 0.5s ease;
-
-}
-
-input[type=checkbox] {
-    display: none;
 }
 
 .portfolio-only {
@@ -57,14 +48,8 @@ input[type=checkbox] {
     transition: left 0.5s ease;
 }
 
-input:checked ~ label {
-    left: 0;
+.form-control{
+    width: 95%;
+    margin: auto;
 }
 
-label {
-    z-index: 2;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-}
