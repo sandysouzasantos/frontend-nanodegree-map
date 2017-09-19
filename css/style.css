@@ -8,3 +8,63 @@ html, body {
     height: 100%;
 }
 
+.btn-menu{
+    float: left;
+    background: transparent;
+    border: none;
+    color: #9d9d9d;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+button:focus{
+    outline: none;
+}
+
+.sidebar {
+    background-color: #222;
+    color: #9d9d9d;
+    width: 150px;
+    position: absolute;
+    top: 50px;
+    left: 0;
+    bottom: 0;
+}
+
+.sidebar h1 {
+    color: white;
+}
+
+.portfolio {
+    position: absolute;
+    top: 50px;
+    left: 150px;
+    right: 0;
+    bottom: 0;
+    height: 100%;
+    -moz-transition: right 0.5s ease;
+    transition: right 0.5s ease;
+
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+.portfolio-only {
+    left: 0;
+    -moz-transition: left 0.5s ease;
+    transition: left 0.5s ease;
+}
+
+input:checked ~ label {
+    left: 0;
+}
+
+label {
+    z-index: 2;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+}

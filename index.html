@@ -4,12 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Title</title>
-    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="node_modules/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+<header>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button data-bind="click: move" class="btn-menu"><span id="main_icon" class="glyphicon glyphicon-align-justify"></span></button>
 
-<div id="map" data-bind="initMap"></div>
+                <h3 class="navbar-text">Restaurantes em Porto de galinhas</h3>
+            </div>
+        </div>
+    </nav>
+</header>
+<div class="main-wrap">
+
+    <div class="sidebar"><h1>Settings</h1></div>
+    <div class="portfolio" id="map" data-bind="initMap"></div>
+</div>
+
+<div></div>
+
 
 <script>
     var map;
@@ -67,9 +85,8 @@
         }
     }
 </script>
-
-<script src="node_modules/jquery/dist/jquery.min.js"></script>
-<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="node_modules/jquery/dist/jquery.js"></script>
+<script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
 <script src="js/knockout-3.4.2.js"></script>
 <script src="js/script.js"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdsGVUv3tAj7zQAr6hIEobRxW-U-OtDKk&libraries=places&callback=initMap"
