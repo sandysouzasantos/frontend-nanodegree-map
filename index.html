@@ -11,7 +11,7 @@
 <header>
     <nav class="navbar navbar-inverse">
         <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
+
             <div class="navbar-header">
                 <button data-bind="click: move" class="btn-menu"><span id="main_icon"
                                                                        class="glyphicon glyphicon-align-justify"></span>
@@ -28,20 +28,19 @@
     <div class="sidebar">
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Encontre seu restaurante">
-            <ul>
-                <li data-bind="foreach: markers"></li>
+            <ul data-bind="foreach: markers">
+                <li data-bind="text: $data"></li>
             </ul>
         </div>
     </div>
 
-    <div class="portfolio" id="map" data-bind="initMap"></div>
+    <div class="portfolio" id="map"></div>
 
 </div>
 
 <script>
     var map;
     var infowindow;
-
 
     function initMap() {
         var centerPortoGalinhas = {lat: -8.5056828, lng: -35.0024702};

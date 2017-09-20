@@ -1,15 +1,13 @@
-var markers;
+var markers = ko.observableArray();
 
 var myViewModel = function () {
     var self = this;
-
-    markers = ko.observableArray();
 
 
 
 
     self.move = function () {
-        $('.portfolio').toggleClass('portfolio-only');
+        $('.portfolio').toggleClass('portfolio-move');
     }
 };
 
