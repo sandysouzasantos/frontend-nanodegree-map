@@ -29,8 +29,9 @@
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Encontre seu restaurante">
             <ul data-bind="foreach: markers">
-                <li data-bind="text: $data"></li>
+                <li data-bind="text: $data, event: { click: $parent.logMouseOver }"></li>
             </ul>
+            <p>You seem to be interested in: <span data-bind="text: lastInterest"> </span></p>
         </div>
     </div>
 
