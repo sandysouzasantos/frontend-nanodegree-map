@@ -43,6 +43,8 @@
     var map;
     var infowindow;
     var allMarkers;
+
+    //A whitelist -- places não informados aqui serão filtrados do resultado.
     var whitelist = {
         "Munganga Bistro": "4b80220ef964a5203d5530e3",
         "Rei do Pastel": "4d99232a744f3704a1140158",
@@ -60,9 +62,12 @@
         "Porto Mix": "4e713b8fb99345fbe7e8e58f"
     };
 
+    // Filtra o observable makers de acordo com a string digitada pelo usuário
     function search(a, event) {
         searchString = $(event.target)[0].value;
         tmpMarkers = [];
+        // Se a string estiver vazia, exibe todos os resultados.
+        // Caso contrário, exibe somente resultados que contenham este resultado.
         if (searchString) {
             for (var i = 0; i < allMarkers.length; i++) {
                 if (allMarkers[i].text.toLowerCase().indexOf(searchString.toLowerCase()) >= 0) {
@@ -77,6 +82,9 @@
         }
         markers(tmpMarkers);
 
+        // Por alguma razão, o click() do marker é disparado quando chamamos o .setMap.
+        // Ao chamar o click, o bounce de todos os elementos é iniciado.
+        // Aqui, o desligamos.
         if (infowindow) {
             infowindow.close();
         }
@@ -91,6 +99,7 @@
         }
     }
 
+    // Classe com as propriedades que iremos utilizar.
     var MarkerObject = function (text, marker) {
         this.text = text;
         this.marker = marker;
@@ -98,6 +107,7 @@
         this.rating = 0;
     };
 
+    // Função a ser disparada sempre que um objeto for selecionado, na lista ou no mapa.
     function selectObject(obj) {
         if (infowindow) {
             infowindow.close();
@@ -117,6 +127,7 @@
         }
     }
 
+    // Inicializa o mapa com os markers padrão.
     function initMap() {
         var centerPortoGalinhas = {lat: -8.5056828, lng: -35.0024702};
 
@@ -178,6 +189,7 @@
         return marker;
     }
 
+    // Pega informações adicionais sobre o place no foursquare.
     var getInformation = function (obj) {
         var clientId = "HU0JQS0JT04OIZAV5KVZKY2F3DGBLDMQPZTSTH3D5TYOUTP5";
         var clientSecret = "CBGK5FVLZWKFPGKWBIPBLJATXYS40HJT13HWQCHAQ5KZQDE5";
