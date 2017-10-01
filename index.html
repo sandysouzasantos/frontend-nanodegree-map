@@ -29,7 +29,7 @@
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Encontre seu restaurante">
             <ul data-bind="foreach: markers">
-                <li data-bind="text: $data.text, click: selectObject($data)"></li>
+                <li data-bind="text: $data.text, click: selectObject($data), css: { selected: $data.selected()}"></li>
             </ul>
         </div>
     </div>
@@ -46,26 +46,23 @@
     var MarkerObject = function(text, marker) {
         this.text = text;
         this.marker = marker;
+        this.selected = ko.observable(false);
     };
 
     function selectObject(obj) {
-//        console.log(obj);
         if (infowindow) {
             infowindow.close();
         }
         infowindow = new google.maps.InfoWindow();
-//        console.log(markers().length);
         for (var i = 0; i < markers().length; i++) {
-//            console.log(obj, markers()[i]);
             if (obj.text === markers()[i].text) {
-//                console.log('entrou');
                 infowindow.setContent(obj.text);
                 infowindow.open(map, obj.marker);
                 obj.marker.setAnimation(google.maps.Animation.BOUNCE);
-                console.log('liguei bounce de ' + obj.text);
+                markers()[i].selected(true);
             } else {
-                console.log('desliguei bounce de ' + obj.text);
                 markers()[i].marker.setAnimation(null);
+                markers()[i].selected(false);
             }
         }
     }
