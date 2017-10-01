@@ -1,11 +1,12 @@
 html, body {
-    height: 100%;
+    /*height: 100%;*/
     margin: 0;
     padding: 0;
+
 }
 
 #map {
-    height: 100%;
+    /*height: 100%;*/
 }
 
 .btn-menu {
@@ -25,7 +26,8 @@ button:focus {
     background-color: #222;
     color: #9d9d9d;
     width: 250px;
-    position: absolute;
+    position: fixed;
+    overflow: scroll;
     top: 50px;
     left: 0;
     bottom: 0;
