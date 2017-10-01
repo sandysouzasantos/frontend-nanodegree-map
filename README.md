@@ -1,14 +1,14 @@
-# Project: Online Resume
+# Project: Neighborhood Map
 
 ## Objective
 
 This repository is intended for the execution of the "Online Resume" project proposed by Udacity as one of the steps to complete the Frontend Developer Nanodegree Program.
 
-##Author
+## Author
 
 Sandy Souza Santos
 
-##Resources
+## Resources
 
 * HTML;
 * CSS;
