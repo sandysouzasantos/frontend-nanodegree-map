@@ -27,7 +27,8 @@
 
     <div class="sidebar">
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Encontre seu restaurante" data-bind="event: {keyup: search}">
+            <input type="text" class="form-control" placeholder="Encontre seu restaurante"
+                   data-bind="event: {keyup: search}">
             <ul data-bind="foreach: markers">
                 <li data-bind="text: $data.text, click: selectObject($data), css: { selected: $data.selected()}"></li>
             </ul>
@@ -41,13 +42,27 @@
 <script>
     var map;
     var infowindow;
-    var selectedMarker;
     var allMarkers;
+    var whitelist = {
+        "Munganga Bistro": "4b80220ef964a5203d5530e3",
+        "Rei do Pastel": "4d99232a744f3704a1140158",
+        "La Tratoria": "4cbfa516020d4688bce26338",
+        "Domingos Restaurante.": "4c0aed697e3fc928778bf482",
+        "Bejupira": "521bf4fb11d208256d77cda6",
+        "MARANGATU Restaurante": "4cfb052c20fe37046a8d51f8",
+        "Temakeria do Porto": "4cdf19463644a093e060509f",
+        "La Crêperie": "4c4b6ac05609c9b6c71b1791",
+        "Pizzaria Paulista": "4e69739f483bf2d9e5cdff36",
+        "Espetinhos Comedoria": "4f7f86bbe4b00dcb6a93b77d",
+        "Mardioca RESTAURANTE Y PIZZERIA": "567dc607498eab68b71f5a11",
+        "Mawari Sushi": "551d5f3a498e9239ce85f211",
+        "Soparia Lumiar": "4e67f9fa7d8b084ac7918582",
+        "Porto Mix": "4e713b8fb99345fbe7e8e58f"
+    };
 
     function search(a, event) {
         searchString = $(event.target)[0].value;
         tmpMarkers = [];
-        console.log(allMarkers);
         if (searchString) {
             for (var i = 0; i < allMarkers.length; i++) {
                 if (allMarkers[i].text.toLowerCase().indexOf(searchString.toLowerCase()) >= 0) {
@@ -60,7 +75,6 @@
         } else {
             tmpMarkers = allMarkers;
         }
-        console.log(tmpMarkers);
         markers(tmpMarkers);
 
         if (infowindow) {
@@ -77,20 +91,22 @@
         }
     }
 
-    var MarkerObject = function(text, marker) {
+    var MarkerObject = function (text, marker) {
         this.text = text;
         this.marker = marker;
         this.selected = ko.observable(false);
+        this.rating = 0;
     };
 
     function selectObject(obj) {
         if (infowindow) {
             infowindow.close();
         }
-//        infowindow = new google.maps.InfoWindow();
+
         for (var i = 0; i < markers().length; i++) {
             if (obj.text === markers()[i].text) {
-                infowindow.setContent(obj.text);
+                var description = obj.text + (obj.rating > 0 ? " (Foursquare rating: " + obj.rating + ")" : "");
+                infowindow.setContent(description);
                 infowindow.open(map, obj.marker);
                 obj.marker.setAnimation(google.maps.Animation.BOUNCE);
                 markers()[i].selected(true);
@@ -104,31 +120,38 @@
     function initMap() {
         var centerPortoGalinhas = {lat: -8.5056828, lng: -35.0024702};
 
-        // Constructor creates a new map.
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: centerPortoGalinhas,
-            zoom: 16
-        });
+        try {
+            // Constructor creates a new map.
+            map = new google.maps.Map(document.getElementById('map'), {
+                center: centerPortoGalinhas,
+                zoom: 16
+            });
 
-        if (infowindow) {
-            infowindow.close();
+            if (infowindow) {
+                infowindow.close();
+            }
+
+            infowindow = new google.maps.InfoWindow();
+
+
+            var service = new google.maps.places.PlacesService(map);
+            service.nearbySearch({
+                location: centerPortoGalinhas,
+                radius: 500,
+                type: ['restaurant']
+            }, callback);
+        } catch (error) {
+            alert('Oops! Parece que algo deu errado :(');
         }
-
-        infowindow = new google.maps.InfoWindow();
-
-
-        var service = new google.maps.places.PlacesService(map);
-        service.nearbySearch({
-            location: centerPortoGalinhas,
-            radius: 500,
-            type: ['restaurant']
-        }, callback);
+        infowindow.close();
     }
 
     function callback(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
+                if (typeof(whitelist[results[i].name]) !== 'undefined') {
+                    createMarker(results[i]);
+                }
             }
             allMarkers = markers();
         }
@@ -144,13 +167,55 @@
 
         var markerObj = new MarkerObject(place.name, marker);
         markers.push(markerObj);
+        getInformation(markerObj);
 
         google.maps.event.addListener(marker, 'click', function () {
-            selectObject(markerObj)
+            selectObject(markerObj);
         });
 
+        infowindow.close();
+        marker.setAnimation(null);
         return marker;
     }
+
+    var getInformation = function (obj) {
+        var clientId = "HU0JQS0JT04OIZAV5KVZKY2F3DGBLDMQPZTSTH3D5TYOUTP5";
+        var clientSecret = "CBGK5FVLZWKFPGKWBIPBLJATXYS40HJT13HWQCHAQ5KZQDE5";
+
+        var url = "https://api.foursquare.com/v2/venues/" + whitelist[obj.text] + "?" +
+            "client_id=" + clientId + "&client_secret=" + clientSecret + "&v=20161016" +
+            "&near=Porto de Galinhas, PE, Brazil&query=" + obj.text + "&callback=venueInformation";
+
+//        console.log();
+
+        $.ajax({
+            method: 'GET',
+            url: url,
+            jsonp: "venueInformation",
+            dataType: "jsonp"
+        });
+    };
+
+    venueInformation = function (response) {
+        var result = response.response.venue;
+        var name = '';
+        for (var i in whitelist) {
+            if (whitelist[i] === response.response.venue.id) {
+                name = i;
+                break;
+            }
+        }
+        for (var j = 0; j < allMarkers.length; j++) {
+            if (allMarkers[j].text === name) {
+                console.log('found ' + name);
+                allMarkers[j].contacts = result.contact;
+                allMarkers[j].checkins = result.stats.checkinsCount;
+                allMarkers[j].rating = result.rating;
+                break;
+            }
+        }
+    };
+
 </script>
 <script src="node_modules/jquery/dist/jquery.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
