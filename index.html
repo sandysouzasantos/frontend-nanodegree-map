@@ -29,7 +29,7 @@
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Encontre seu restaurante">
             <ul data-bind="foreach: markers">
-                <li data-bind="text: $data.text, click: toggleBounce($data.marker)"></li>
+                <li data-bind="text: $data.text, click: selectObject($data)"></li>
             </ul>
         </div>
     </div>
@@ -47,6 +47,28 @@
         this.text = text;
         this.marker = marker;
     };
+
+    function selectObject(obj) {
+//        console.log(obj);
+        if (infowindow) {
+            infowindow.close();
+        }
+        infowindow = new google.maps.InfoWindow();
+//        console.log(markers().length);
+        for (var i = 0; i < markers().length; i++) {
+//            console.log(obj, markers()[i]);
+            if (obj.text === markers()[i].text) {
+//                console.log('entrou');
+                infowindow.setContent(obj.text);
+                infowindow.open(map, obj.marker);
+                obj.marker.setAnimation(google.maps.Animation.BOUNCE);
+                console.log('liguei bounce de ' + obj.text);
+            } else {
+                console.log('desliguei bounce de ' + obj.text);
+                markers()[i].marker.setAnimation(null);
+            }
+        }
+    }
 
     function initMap() {
         var centerPortoGalinhas = {lat: -8.5056828, lng: -35.0024702};
@@ -70,10 +92,7 @@
     function callback(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
-                var marker = createMarker(results[i]);
-                var markerObj = new MarkerObject(results[i].name, marker);
-
-                markers.push(markerObj);
+                createMarker(results[i]);
             }
         }
     }
@@ -86,14 +105,14 @@
             position: placeLoc
         });
 
+        var markerObj = new MarkerObject(place.name, marker);
+        markers.push(markerObj);
+
         google.maps.event.addListener(marker, 'click', function () {
-            infowindow.setContent(place.name);
-            infowindow.open(map, this);
-            toggleBounce(marker);
+            selectObject(markerObj)
         });
 
         return marker;
-
     }
 
     function toggleBounce(marker) {
