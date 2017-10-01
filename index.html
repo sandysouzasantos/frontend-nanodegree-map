@@ -27,7 +27,7 @@
 
     <div class="sidebar">
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Encontre seu restaurante">
+            <input type="text" class="form-control" placeholder="Encontre seu restaurante" data-bind="event: {keyup: search}">
             <ul data-bind="foreach: markers">
                 <li data-bind="text: $data.text, click: selectObject($data), css: { selected: $data.selected()}"></li>
             </ul>
@@ -42,6 +42,40 @@
     var map;
     var infowindow;
     var selectedMarker;
+    var allMarkers;
+
+    function search(a, event) {
+        searchString = $(event.target)[0].value;
+        tmpMarkers = [];
+        console.log(allMarkers);
+        if (searchString) {
+            for (var i = 0; i < allMarkers.length; i++) {
+                if (allMarkers[i].text.toLowerCase().indexOf(searchString.toLowerCase()) >= 0) {
+                    tmpMarkers.push(allMarkers[i]);
+                }
+            }
+            for (var i = 0; i < markers().length; i++) {
+                markers()[i].marker.setMap(null);
+            }
+        } else {
+            tmpMarkers = allMarkers;
+        }
+        console.log(tmpMarkers);
+        markers(tmpMarkers);
+
+        if (infowindow) {
+            infowindow.close();
+        }
+
+        for (var i = 0; i < markers().length; i++) {
+            markers()[i].marker.setMap(map);
+            markers()[i].marker.setAnimation(null);
+
+            if (infowindow) {
+                infowindow.close();
+            }
+        }
+    }
 
     var MarkerObject = function(text, marker) {
         this.text = text;
@@ -53,7 +87,7 @@
         if (infowindow) {
             infowindow.close();
         }
-        infowindow = new google.maps.InfoWindow();
+//        infowindow = new google.maps.InfoWindow();
         for (var i = 0; i < markers().length; i++) {
             if (obj.text === markers()[i].text) {
                 infowindow.setContent(obj.text);
@@ -76,7 +110,12 @@
             zoom: 16
         });
 
+        if (infowindow) {
+            infowindow.close();
+        }
+
         infowindow = new google.maps.InfoWindow();
+
 
         var service = new google.maps.places.PlacesService(map);
         service.nearbySearch({
@@ -91,6 +130,7 @@
             for (var i = 0; i < results.length; i++) {
                 createMarker(results[i]);
             }
+            allMarkers = markers();
         }
     }
 
