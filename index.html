@@ -47,7 +47,6 @@
     function search(a, event) {
         searchString = $(event.target)[0].value;
         tmpMarkers = [];
-        console.log(allMarkers);
         if (searchString) {
             for (var i = 0; i < allMarkers.length; i++) {
                 if (allMarkers[i].text.toLowerCase().indexOf(searchString.toLowerCase()) >= 0) {
@@ -60,7 +59,6 @@
         } else {
             tmpMarkers = allMarkers;
         }
-        console.log(tmpMarkers);
         markers(tmpMarkers);
 
         if (infowindow) {
