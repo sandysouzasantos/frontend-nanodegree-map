@@ -29,7 +29,7 @@
         <div class="form-group">
             <input type="text" class="form-control" placeholder="Encontre seu restaurante">
             <ul data-bind="foreach: markers">
-                <li data-bind="text: $data"></li>
+                <li data-bind="text: $data.text, click: toggleBounce($data.marker)"></li>
             </ul>
         </div>
     </div>
@@ -41,6 +41,12 @@
 <script>
     var map;
     var infowindow;
+    var selectedMarker;
+
+    var MarkerObject = function(text, marker) {
+        this.text = text;
+        this.marker = marker;
+    };
 
     function initMap() {
         var centerPortoGalinhas = {lat: -8.5056828, lng: -35.0024702};
@@ -64,10 +70,11 @@
     function callback(results, status) {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
             for (var i = 0; i < results.length; i++) {
-                createMarker(results[i]);
-                markers.push(results[i].name);
-            }
+                var marker = createMarker(results[i]);
+                var markerObj = new MarkerObject(results[i].name, marker);
 
+                markers.push(markerObj);
+            }
         }
     }
 
@@ -82,15 +89,19 @@
         google.maps.event.addListener(marker, 'click', function () {
             infowindow.setContent(place.name);
             infowindow.open(map, this);
-            toggleBounce()
+            toggleBounce(marker);
         });
 
-        function toggleBounce() {
-            if (marker.getAnimation() !== null) {
-                marker.setAnimation(null);
-            } else {
-                marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
+        return marker;
+
+    }
+
+    function toggleBounce(marker) {
+//        console.log(marker);
+        if (marker.getAnimation() !== null) {
+            marker.setAnimation(null);
+        } else {
+            marker.setAnimation(google.maps.Animation.BOUNCE);
         }
     }
 </script>
