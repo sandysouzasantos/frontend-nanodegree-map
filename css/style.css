@@ -33,7 +33,7 @@ button:focus {
     bottom: 0;
 }
 
-.portfolio {
+.map {
     position: absolute;
     top: 50px;
     left: 0;
@@ -43,7 +43,7 @@ button:focus {
 
 }
 
-.portfolio-move {
+.map-move {
     left: 250px;
     -moz-transition: left 0.5s ease;
     transition: left 0.5s ease;

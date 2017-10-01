@@ -4,8 +4,8 @@ var myViewModel = function () {
     var self = this;
 
     self.move = function () {
-        $('.portfolio').toggleClass('portfolio-move');
-    }
+        $('.map').toggleClass('map-move');
+    };
 };
 
 ko.applyBindings(new myViewModel());
