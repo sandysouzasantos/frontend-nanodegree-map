@@ -6,8 +6,9 @@ This repository is intended for the execution of the "Online Resume" project pro
 
 ## Instructions
 
-* Clone this repository.
-* Run 'npm install' in your terminal to intall dependencies.
+* In your terminal, select the directory and type `git clone https://github.com/sandysouzasantos/frontend-nanodegree-map.git`.
+* In your terminal, change to project directory and run 'npm install' to install dependencies.
+* Open the `index.html` file with a browser of your choice.
 
 
 ## Author
