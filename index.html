@@ -50,16 +50,13 @@
         "Rei do Pastel": "4d99232a744f3704a1140158",
         "La Tratoria": "4cbfa516020d4688bce26338",
         "Domingos Restaurante.": "4c0aed697e3fc928778bf482",
-        "Bejupira": "521bf4fb11d208256d77cda6",
         "MARANGATU Restaurante": "4cfb052c20fe37046a8d51f8",
         "Temakeria do Porto": "4cdf19463644a093e060509f",
         "La Crêperie": "4c4b6ac05609c9b6c71b1791",
         "Pizzaria Paulista": "4e69739f483bf2d9e5cdff36",
         "Espetinhos Comedoria": "4f7f86bbe4b00dcb6a93b77d",
         "Mardioca RESTAURANTE Y PIZZERIA": "567dc607498eab68b71f5a11",
-        "Mawari Sushi": "551d5f3a498e9239ce85f211",
-        "Soparia Lumiar": "4e67f9fa7d8b084ac7918582",
-        "Porto Mix": "4e713b8fb99345fgit stbe7e8e58f"
+        "Soparia Lumiar": "4e67f9fa7d8b084ac7918582"
     };
 
     // Filtra o observable makers de acordo com a string digitada pelo usuário
@@ -198,8 +195,6 @@
             "client_id=" + clientId + "&client_secret=" + clientSecret + "&v=20161016" +
             "&near=Porto de Galinhas, PE, Brazil&query=" + obj.text + "&callback=venueInformation";
 
-//        console.log();
-
         $.ajax({
             method: 'GET',
             url: url,
@@ -219,7 +214,6 @@
         }
         for (var j = 0; j < allMarkers.length; j++) {
             if (allMarkers[j].text === name) {
-                console.log('found ' + name);
                 allMarkers[j].contacts = result.contact;
                 allMarkers[j].checkins = result.stats.checkinsCount;
                 allMarkers[j].rating = result.rating;
