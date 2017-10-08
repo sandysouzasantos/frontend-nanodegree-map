@@ -39,9 +39,14 @@
 
 </div>
 
+<script>
+    function selfError() {
+        alert('Ops! Ocorreu um erro ao carregar os scripts da página. Recarregue e tente novamente');
+    }
+</script>
 <script src="node_modules/jquery/dist/jquery.js"></script>
 <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
-<script src="js/knockout-3.4.2.js"></script>
+<script src="js/knockout-3.4.2.js" onerror="selfError()"></script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAdsGVUv3tAj7zQAr6hIEobRxW-U-OtDKk&libraries=places&callback=initMap"
         async defer onerror="googleError()"></script>
 <script defer src="js/script.js"></script>
