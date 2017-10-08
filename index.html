@@ -61,7 +61,7 @@
 
     // Filtra o observable makers de acordo com a string digitada pelo usuário
     function search(a, event) {
-        searchString = $(event.target)[0].value;
+        searchString = event.target.value;
         tmpMarkers = [];
         // Se a string estiver vazia, exibe todos os resultados.
         // Caso contrário, exibe somente resultados que contenham este resultado.
