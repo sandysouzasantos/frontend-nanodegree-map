@@ -160,6 +160,11 @@ var getInformation = function (obj) {
         url: url,
         jsonp: "venueInformation",
         dataType: "jsonp"
+    }).fail(function(response) {
+        // Não sei pq, mas esse callback está sendo executado mesmo com respostas HTTP 200. Por isso, verifico o status code.
+        if (response.status >= 400) {
+            alert('Ops! Parece que ocorreu um erro ao comunicar com a API do Foursquare! Por favor, recarregue a página e tente novamente mais tarde!');
+        }
     });
 };
 
