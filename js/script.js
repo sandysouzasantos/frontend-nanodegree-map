@@ -21,13 +21,12 @@ var whitelist = {
 
 // Filtra o observable makers de acordo com a string digitada pelo usuário
 function search(a, event) {
-    searchString = event.target.value;
     tmpMarkers = [];
     // Se a string estiver vazia, exibe todos os resultados.
     // Caso contrário, exibe somente resultados que contenham este resultado.
-    if (searchString) {
+    if (searchString()) {
         for (var i = 0; i < allMarkers.length; i++) {
-            if (allMarkers[i].text.toLowerCase().indexOf(searchString.toLowerCase()) >= 0) {
+            if (allMarkers[i].text.toLowerCase().indexOf(searchString().toLowerCase()) >= 0) {
                 tmpMarkers.push(allMarkers[i]);
             }
         }
@@ -200,3 +199,5 @@ var myViewModel = function () {
 };
 
 ko.applyBindings(new myViewModel());
+
+var searchString = ko.observable();
