@@ -59,7 +59,6 @@ function search(a, event) {
 var MarkerObject = function (text, marker) {
     this.text = text;
     this.marker = marker;
-    this.selected = ko.observable(false);
     this.rating = 0;
 };
 
@@ -75,10 +74,9 @@ function selectObject(obj) {
             infowindow.setContent(description);
             infowindow.open(map, obj.marker);
             obj.marker.setAnimation(google.maps.Animation.BOUNCE);
-            markers()[i].selected(true);
+            selectedVenue(obj.text);
         } else {
             markers()[i].marker.setAnimation(null);
-            markers()[i].selected(false);
         }
     }
 }
@@ -201,3 +199,4 @@ var myViewModel = function () {
 ko.applyBindings(new myViewModel());
 
 var searchString = ko.observable();
+var selectedVenue = ko.observable("");

@@ -30,7 +30,7 @@
             <input type="text" class="form-control" placeholder="Encontre seu restaurante"
                    data-bind="event: {keyup: search}, textInput: searchString">
             <ul data-bind="foreach: markers">
-                <li data-bind="text: $data.text, click: selectObject($data), css: { selected: $data.selected()}"></li>
+                <li data-bind="text: $data.text, click: selectObject($data), css: { selected: ($data.text == selectedVenue()) }"></li>
             </ul>
         </div>
     </div>
